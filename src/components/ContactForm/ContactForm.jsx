@@ -33,14 +33,17 @@ export class ContactForm extends Component {
   };
 
   handleSubmit = e => {
+    // prevent the form refreshing when submitting
     e.preventDefault();
     const { name, number } = this.state;
     const { addContact, contacts } = this.props;
 
+    // if name and number is empty, it will not submit(return)
     if (name.trim() === '' || number.trim() === '') {
       return;
     }
 
+    // if existing contact set an alert, it will not submit(return)
     const existingContact = contacts.find(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
@@ -49,14 +52,14 @@ export class ContactForm extends Component {
       return;
     }
 
-    const newContact = {
+    // Add Contact
+    addContact({
       id: nanoid(),
       name: name.trim(),
       number: number.trim(),
-    };
+    });
 
-    addContact(newContact);
-
+    // Reset Form Fields upon submitting
     this.setState({
       name: '',
       number: '',
